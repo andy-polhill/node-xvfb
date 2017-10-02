@@ -1,9 +1,9 @@
-ARG VERSION=latest
-FROM node:${VERSION}
+ARG  TAG=latest
+FROM node:{TAG}
 
 # Follows from the thread at https://github.com/segmentio/nightmare/issues/224
 
-apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
   xvfb \
   x11-xkb-utils \
   xfonts-100dpi \
@@ -24,4 +24,9 @@ apt-get update && apt-get install -y \
   libxss1 \
   libnss3-dev \
   gcc-multilib \
-  g++-multilib
+  g++-multilib \
+  chromium
+
+  ADD xvfb-chromium /usr/bin/xvfb-chromium
+  RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome
+  RUN ln -s /usr/bin/xvfb-chromium /usr/bin/chromium-browser
